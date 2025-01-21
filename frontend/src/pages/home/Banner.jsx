@@ -3,7 +3,7 @@ import bannerImg from "../../assets/banner.png"
 
 export default function Banner() {
   return (
-    <div className='flex flex-col md:flex-row-reverse py-10 md:py-16 px-4 md:px-10 justify-between items-center gap-12'>
+    <div className='flex flex-col md:flex-row-reverse py-10 md:py-16 justify-between items-center gap-12'>
         {/* Right Side */}
         <div className=' md:w-1/2 w-full flex items-center md:justify-end'>
             <img src={bannerImg} alt="BannerImg" />
