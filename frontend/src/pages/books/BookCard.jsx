@@ -16,7 +16,7 @@ export default function BookCard({book}) {
                 <Link to={`/books/${book._id}`}>
                     <h3 className="text-xl font-semibold hover:text-blue-600 mb-3">{book?.title}</h3>
                 </Link>
-                <p className="text-gray-600 mb-5 line-clamp-1">{book?.description}</p>
+                <p className="text-gray-600 mb-5 line-clamp-2">{book?.description}</p>
                 <p className="font-medium mb-5">${book?.newPrice} <span className="line-through font-normal ml-2">${book?.oldPrice}</span></p>
                 <button className="btn-primary px-6 space-x-1 flex items-center gap-1 ">
                     <FiShoppingCart className="" />

@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 // import required modules
-import { Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 const categories = ['Choose a genre', 'Business', 'Fiction', 'Horror', 'Adventure']
 
@@ -39,6 +39,10 @@ export default function TopSellers() {
             slidesPerView={1}
             spaceBetween={30}
             navigation={true}
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}  
             breakpoints={{
             640: {
                 slidesPerView: 1,
@@ -57,7 +61,7 @@ export default function TopSellers() {
                 spaceBetween: 20,
             },
             }}
-            modules={[Navigation]}
+            modules={[Autoplay, Navigation]}
             className="mySwiper" >
             {
                 filteredBooks.length > 0 && filteredBooks.map((book, index) => (
