@@ -40,7 +40,7 @@ export default function TopSellers() {
             spaceBetween={30}
             navigation={true}
             autoplay={{
-                delay: 2500,
+                delay: 5000,
                 disableOnInteraction: false,
               }}  
             breakpoints={{
