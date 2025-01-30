@@ -7,6 +7,7 @@ import { HiOutlineHeart } from "react-icons/hi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import avatarImg from "../assets/avatar.png"
 import { useSelector } from 'react-redux';
+import { useAuth } from '../context/AuthContext';
 
 const navigation = [
     { name: 'Dashboard', path: '/dashboard' },
@@ -19,7 +20,11 @@ export default function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const cartItems = useSelector((state) => state.cart.cartItems);
     
-    const currentUser = false; 
+    const { currentUser, logout } = useAuth();
+
+    const handleLogOut = () => {
+        logout()
+    }
   return (
     <header className='max-w-screen-2xl mx-auto px-4 py-6'>
         <nav className='flex justify-between items-center px-2 sm:px-6'>
@@ -51,6 +56,9 @@ export default function Navbar() {
                                                     <Link to={item.path} className='block px-4 py-2 text-sm hover:bg-gray-100'>{item.name}</Link>
                                                 </li>))
                                             }
+                                            <li>
+                                                <button onClick={handleLogOut} className='block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left'>Logout</button>
+                                            </li>
                                         </ul>
                                     </div>
                                 )
