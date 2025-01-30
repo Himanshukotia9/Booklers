@@ -27,7 +27,7 @@ const cartSlice = createSlice({
                     icon: "success",
                     title: "Item added to cart",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1000
                   });
             }
             else{
@@ -35,7 +35,7 @@ const cartSlice = createSlice({
                     title: "Item already exists in cart!",
                     icon: "warning",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1000
                   });
             }
         },

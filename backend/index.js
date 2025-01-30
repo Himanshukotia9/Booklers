@@ -17,7 +17,10 @@ app.use(cors({
 
 //Routes
 const bookRoutes = require('./src/books/book.route')
+const orderRoute = require('./src/orders/order.route')
+
 app.use('/api/books', bookRoutes)
+app.use('/api/orders', orderRoute)
 
 async function main() {
     await mongoose.connect(process.env.DB_URL);

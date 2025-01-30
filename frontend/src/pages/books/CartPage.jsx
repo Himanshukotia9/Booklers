@@ -13,7 +13,7 @@ export default function CartPage() {
 
     const handleTotalPrice = () =>{
         let total = 0;
-        cartItems.map((product) => {
+        cartItems.forEach((product) => {
             total += product.quantity * product.newPrice;
         })
         let subTotal = total.toFixed(2)

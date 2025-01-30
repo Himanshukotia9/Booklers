@@ -1,28 +1,35 @@
+//CheckoutPage.jsx
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useCreateOrderMutation } from '../../redux/features/orders/ordersApi';
 
 export default function CheckoutPage() {
-    const [total, SetTotal] = useState(0);
+    const [total, setTotal] = useState(0);
     const cartItems = useSelector((state) => state.cart.cartItems);
-    const currentUser = true; //ToDo: get user from auth
+    const { currentUser } = useAuth();
+
+    const [ createOrder, {isLoading, error} ] = useCreateOrderMutation();
+    const navigate = useNavigate();
+
     const [isChecked, setIsChecked] = useState(false)
     const handleTotalPrice = () =>{
         let total = 0;
-        cartItems.map((product) => {
+        cartItems.forEach((product) => {
             total += product.quantity * product.newPrice;
         })
         let subTotal = total.toFixed(2)
-        SetTotal(subTotal);
+        setTotal(subTotal);
     }
     
     useEffect(() => {
         handleTotalPrice();
-    });
+    },[cartItems]);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => {
+    const onSubmit = async(data) => {
         const newOrder = {
             name: data.name,
             email: currentUser?.email,
@@ -34,12 +41,23 @@ export default function CheckoutPage() {
                 address: data.address,
             },
             phone: data.phone,
-            productIds: cartItems.map(item => item?._id),
+            orderDetail: cartItems.map(product => ({
+                productId: product._id,
+                quantity: product.quantity,
+            })),
             totalPrice: total,
         }
-        console.log(newOrder);
+        try {
+            await createOrder(newOrder).unwrap();
+            alert("Order created successfully");
+            navigate('/orders')
+        } catch (error) {
+            console.error("Error placing an order", error);
+            alert('Failed to place an order')
+        }
+        
     }
-
+    if(isLoading)return <div>Loading...</div>
   return (
     <section>
         <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -68,7 +86,7 @@ export default function CheckoutPage() {
                                     </div>
                                     <div className="md:col-span-5">
                                         <label html="phone">Phone Number</label>
-                                        <input {...register('phone' , {required: true})} type="number" name="phone" id="phone" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="+91 23456 78910" />
+                                        <input {...register('phone' , {required: true, pattern: /^[0-9]+$/ })} type="number" name="phone" id="phone" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="+91 23456 78910" />
                                     </div>
                                     <div className="md:col-span-3">
                                         <label htmlFor="address">Address / Street</label>
@@ -120,7 +138,7 @@ export default function CheckoutPage() {
                                     </div>
                                     <div className="md:col-span-5 text-right">
                                         <div className="inline-flex items-end">
-                                            <button disabled={!isChecked} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Place an Order</button>
+                                            <button disabled={!isChecked} className={`py-2 px-4 rounded font-bold text-white ${isChecked ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}>Place an Order</button>
                                         </div>
                                     </div>
                                 </div>
