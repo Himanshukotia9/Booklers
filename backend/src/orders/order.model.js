@@ -41,10 +41,18 @@ const orderSchema = new mongoose.Schema({
             ref:'Book',
             required:true
         },
+        title:{
+            type:String,
+            required:true
+        },
+        price:{
+            type:Number,
+            required:true
+        },
         quantity:{
             type:Number,
             required:true
-        }
+        },
     }],
     totalPrice:{
         type: Number,

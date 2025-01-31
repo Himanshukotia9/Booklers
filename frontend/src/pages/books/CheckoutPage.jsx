@@ -43,6 +43,8 @@ export default function CheckoutPage() {
             phone: data.phone,
             orderDetail: cartItems.map(product => ({
                 productId: product._id,
+                title: product.title,
+                price: product.newPrice,
                 quantity: product.quantity,
             })),
             totalPrice: total,
