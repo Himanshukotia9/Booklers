@@ -25,12 +25,12 @@ const ordersApi = createApi({
             }),
             providesTags: ['Orders']
         }),
-        getSingleOrderByEmail: builder.query({
-            query: (email, id) => ({
-                url: `/email/${email}/${id}`,
-            }),
-            providesTags: ['order']
-        }),
+        // getSingleOrderByEmail: builder.query({
+        //     query: (email, id) => ({
+        //         url: `/email/${email}/${id}`,
+        //     }),
+        //     providesTags: ['order']
+        // }),
     })    
 })
 

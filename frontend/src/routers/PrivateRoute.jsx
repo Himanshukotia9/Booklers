@@ -1,16 +1,15 @@
 import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { Navigate } from 'react-router-dom'
+import Loader from '../component/Loader';
 
 export default function PrivateRoute({ children }) {
-    const { currentUser } = useAuth();
+    const { currentUser, loading } = useAuth();
+    if (loading) {
+      return <Loader/>
+    }
     if(currentUser){
         return children
     }
     return <Navigate to='/login' replace/>
-  return (
-    <div>
-      
-    </div>
-  )
 }

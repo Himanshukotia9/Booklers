@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', createAOrder)
 // get all orders by userSpecefic email
 router.get('/email/:email', getUserSpeceficOrders)
-//get single order by userSpecefic email and orderId
-router.get('/email/:email/:id', getUserSpeceficSingleOrder)
+// //get single order by userSpecefic email and orderId
+// router.get('/email/:email/:id', getUserSpeceficSingleOrder)
 
 module.exports = router;

@@ -27,23 +27,22 @@ const getUserSpeceficOrders = async(req,res) => {
 }
 
 //get user specefic single order deetails
-const getUserSpeceficSingleOrder = async(req,res) => {
-    try {
-        const {email, id} = req.params;
-        const order = await Order.findOne({email, id});
-        if(!order){
-            return res.status(404).json({message: "Order not Found"});
-        }
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({message: 'Failed to fetch order'})
-    }
-}
+// const getUserSpeceficSingleOrder = async(req,res) => {
+//     try {
+//         const {email, id} = req.params;
+//         const order = await Order.findOne({email, id});
+//         if(!order){
+//             return res.status(404).json({message: "Order not Found"});
+//         }
+//         res.status(200).json(order);
+//     } catch (error) {
+//         res.status(500).json({message: 'Failed to fetch order'})
+//     }
+// }
 
 
 module.exports = {
     createAOrder,
     getUserSpeceficOrders,
-    getUserSpeceficSingleOrder,
-    
+    // getUserSpeceficSingleOrder,
 }

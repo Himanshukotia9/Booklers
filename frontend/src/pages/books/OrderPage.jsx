@@ -25,11 +25,10 @@ export default function OrderPage() {
                                 <p className="text-gray-600">Phone: {order.phone}</p>
                                 <p className="text-gray-600">Total Price: ${order.totalPrice}</p>
                             </div>
-                            <div className=' sm:pr-10'>
+                            <div className='w-72 sm:pr-10'>
                                 <h2 className="font-bold">Address:</h2>
-                                <p className='line-clamp-4'>{order.address.address},</p>
-                                <p>{order.address.city}</p>
-                                <p>{order.address.state}</p>
+                                <p className=''>{order.address.address},</p>
+                                <p>{order.address.city}, {order.address.state}</p>
                                 <p>{order.address.country}</p>
                                 <p>{order.address.zipcode}</p>
                             </div>
