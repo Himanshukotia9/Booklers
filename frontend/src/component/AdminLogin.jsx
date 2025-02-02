@@ -19,7 +19,7 @@ export default function AdminLogin() {
                 }
             })
             const auth = response.data;
-            console.log(auth);
+            // console.log(auth);
             if(auth.token){
                 localStorage.setItem('token', auth.token);
                 setTimeout(() => {
