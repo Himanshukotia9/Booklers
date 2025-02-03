@@ -7,11 +7,12 @@ const cors = require('cors')
 const app = express()
 
 const port = process.env.PORT || 5000;
+require('dotenv').config()
 
 //middelware
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://booklers.vercel.app"],
     credentials: true
 }));
 
