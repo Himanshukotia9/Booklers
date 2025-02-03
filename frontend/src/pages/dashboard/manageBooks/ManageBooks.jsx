@@ -1,13 +1,14 @@
-import React from "react";
+//ManageBooks.jsx
+import React, { useEffect } from "react";
 import {
   useDeleteBookMutation,
   useFetchAllBooksQuery,
 } from "../../../redux/features/books/booksApi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function ManageBooks() {
-  const navigate = useNavigate();
 
+  const location = useLocation();
   const { data: books, refetch } = useFetchAllBooksQuery();
 
   const [deleteBook] = useDeleteBookMutation();
@@ -24,10 +25,10 @@ export default function ManageBooks() {
     }
   };
 
-  // Handle navigating to Edit Book page
-  const handleEditClick = (id) => {
-    navigate(`dashboard/edit-book/${id}`);
-  };
+  useEffect(() => {
+    // Fetch books when the component mounts
+    refetch();
+  }, [location, refetch])
 
   return (
     <section className="py-1 bg-blueGray-50">
@@ -74,9 +75,9 @@ export default function ManageBooks() {
               </thead>
 
               <tbody>
-                {books &&
+                {books?.length > 0 ? (
                   books.map((book, index) => (
-                    <tr key={index}>
+                    <tr key={book._id}>
                       <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                         {index + 1}
                       </th>
@@ -104,7 +105,13 @@ export default function ManageBooks() {
                         </button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4">No books found.</td>
+                  </tr>
+                )
+                  }
               </tbody>
             </table>
           </div>
