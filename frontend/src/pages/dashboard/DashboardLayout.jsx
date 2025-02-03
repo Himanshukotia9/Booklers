@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { HiViewGridAdd } from 'react-icons/hi';
 import { MdOutlineManageHistory } from "react-icons/md";
@@ -8,8 +8,21 @@ export default function DashboardLayout() {
     const navigate = useNavigate()
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiry');
         navigate("/")
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const expiryTime = localStorage.getItem('tokenExpiry');
+
+        if (!token || Date.now() > expiryTime) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('tokenExpiry');
+            alert('Session expired. Please log in again.');
+            navigate('/');
+        }
+    }, []);
 
   return (
     <section className="flex md:bg-gray-100 min-h-screen overflow-hidden">

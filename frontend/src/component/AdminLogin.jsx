@@ -21,9 +21,12 @@ export default function AdminLogin() {
             const auth = response.data;
             // console.log(auth);
             if(auth.token){
+                const expiryTime = Date.now() + 3600 * 1000; // Current time + 1 hour
                 localStorage.setItem('token', auth.token);
+                localStorage.setItem('tokenExpiry', expiryTime);
                 setTimeout(() => {
-                    localStorage.removeItem('token')
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('tokenExpiry');
                     alert('Token has been expired!, please login again.');
                     navigate('/')
                 }, 3600 * 1000)
