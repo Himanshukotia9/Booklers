@@ -32,9 +32,9 @@ async function main() {
         res.send('Welcome to Booklers Server')
     })
 }
-main().then(() => console.log('connected to database')).catch(err => console.log(err));
+main().then(() => console.log('✅ Connected to database')).catch(err => console.error("❌ Database connection error:", err));
 
 
 app.listen(port, () => {
-  console.log(`Booklers listening on port ${port}`)
+  console.log(`🚀 Booklers server running on port ${port}`)
 })
