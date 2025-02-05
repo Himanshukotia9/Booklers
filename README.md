@@ -30,7 +30,7 @@ Booklers is an e-commerce bookstore that allows users to browse and purchase boo
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/booklers.git
+   git clone https://github.com/Himanshukotia9/Booklers.git
    cd booklers
    ```
 2. Install dependencies:
