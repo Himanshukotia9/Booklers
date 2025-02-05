@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { HiViewGridAdd } from 'react-icons/hi';
 import { MdOutlineManageHistory } from "react-icons/md";
- 
+import profileImg from '../../assets/himanshu.jpg'
 export default function DashboardLayout() {
 
     const navigate = useNavigate()
@@ -82,15 +82,12 @@ export default function DashboardLayout() {
           <button className="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
             <span className="sr-only">User Menu</span>
             <div className="hidden md:flex md:flex-col md:items-end md:leading-tight">
-              <span className="font-semibold">Grace Simmons</span>
-              <span className="text-sm text-gray-600">Lecturer</span>
+              <span className="font-semibold">Himanshu Kotia</span>
+              <span className="text-sm text-gray-600">Admin</span>
             </div>
             <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
-              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="user profile photo" className="h-full w-full object-cover"/>
+              <img src={profileImg} alt="user profile photo" className="h-full w-full object-cover"/>
             </span>
-            <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="hidden sm:block h-6 w-6 text-gray-300">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg> 
           </button>
           <div className="border-l pl-3 ml-3 space-x-1">
             <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
