@@ -1,22 +1,28 @@
 // UpdateBook.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../addBook/InputField";
 import SelectField from "../addBook/SelectField";
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchBookByIdQuery, useUpdateBookMutation } from "../../../redux/features/books/booksApi";
+import { useFetchBookByIdQuery } from "../../../redux/features/books/booksApi";
 import Loader from "../../../component/Loader";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import getBaseUrl from "../../../utils/baseURL";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { storage } from "../../../firebase/firebase.config";
+
 
 export default function UpdateBook() {
     
     const {id} = useParams();
     const {data: bookData, isLoading, isError, refetch} = useFetchBookByIdQuery(id)
-    const [updateBook] = useUpdateBookMutation();
     const { register, handleSubmit, setValue, reset } = useForm();
     const navigate = useNavigate();
+    const [imageFile, setImageFile] = useState(null);
+    const [imageFileName, setImageFileName] = useState("");
+    const [oldImageUrl, setOldImageUrl] = useState("");
+  
 
     useEffect(() => {
         if (bookData) {
@@ -27,8 +33,28 @@ export default function UpdateBook() {
             setValue('oldPrice', bookData.oldPrice);
             setValue('newPrice', bookData.newPrice);
             setValue('coverImage', bookData.coverImage)
+            setOldImageUrl(bookData.coverImage);
         }
     },[bookData, setValue])
+
+    const handleFileChange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setImageFile(file);
+        const storageRef = ref(storage, "images/books/" + file.name);
+        // Upload new image
+        await uploadBytes(storageRef, file);
+        const downloadUrl = await getDownloadURL(storageRef);
+        setImageFileName(downloadUrl);  
+        // Delete old image if exists
+        if (oldImageUrl) {
+          const oldImageRef = ref(storage, oldImageUrl);
+          deleteObject(oldImageRef)
+            .then(() => console.log("Old image deleted successfully"))
+            .catch((error) => console.error("Error deleting old image:", error));
+        }
+      }
+    };
 
     const onSubmit = async(data) => {
         const updateBookData = {
@@ -38,7 +64,7 @@ export default function UpdateBook() {
             trending: data.trending,
             oldPrice: Number(data.oldPrice),
             newPrice: Number(data.newPrice),
-            coverImage: data.coverImage || bookData.coverImage,
+            coverImage: imageFileName || bookData.coverImage,
         };
         try {
             await axios.put(`${getBaseUrl()}/api/books/edit/${id}`,updateBookData, {
@@ -128,13 +154,17 @@ export default function UpdateBook() {
           register={register}
         />
 
-        <InputField
-          label="Cover Image URL"
-          name="coverImage"
-          type="text"
-          placeholder="Cover Image URL"
-          register={register}
-        />
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Cover Image
+          </label>
+          <input type="file" accept="image/*" onChange={handleFileChange} className="mb-2 w-full" />
+          {oldImageUrl && (
+            <p className="text-sm text-gray-500">
+              Current Image: <a href={oldImageUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">View</a>
+            </p>
+          )}
+        </div>
 
         <button
           type="submit"
