@@ -6,6 +6,7 @@ const InputField = ({ label, name, type = 'text', register, placeholder }) => {
       <label className="block text-sm font-semibold text-gray-700">{label}</label>
       <input
         type={type}
+        step={type === "number" ? "0.01" : undefined} // Allows decimal input for numbers
         {...register(name,  { required: true })}
         className=" p-2 border w-full rounded-md focus:outline-none focus:ring focus:border-blue-300"
         placeholder={placeholder}

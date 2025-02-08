@@ -144,6 +144,7 @@ export default function UpdateBook() {
           type="number"
           placeholder="Old Price"
           register={register}
+          step="0.01"
         />
 
         <InputField
@@ -152,6 +153,7 @@ export default function UpdateBook() {
           type="number"
           placeholder="New Price"
           register={register}
+          step="0.01"
         />
 
         <div className="mb-4">

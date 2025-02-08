@@ -126,7 +126,7 @@ export default function AddBook() {
           type="number"
           placeholder="Old Price"
           register={register}
-         
+          step="0.01"
         />
 
         {/* New Price */}
@@ -136,7 +136,7 @@ export default function AddBook() {
           type="number"
           placeholder="New Price"
           register={register}
-          
+          step="0.01"
         />
 
         {/* Cover Image Upload */}
