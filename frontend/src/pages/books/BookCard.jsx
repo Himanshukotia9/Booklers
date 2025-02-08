@@ -1,6 +1,5 @@
 import React from 'react'
 import { FiShoppingCart } from "react-icons/fi";
-import { getImgUrl } from '../../utils/getImg';
 import {Link} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice';
@@ -17,7 +16,7 @@ export default function BookCard({book}) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:h-72  sm:justify-center gap-4">
             <div className="sm:h-72 sm:flex-shrink-0 border rounded-md">
                 <Link to={`/books/${book._id}`}>
-                    <img src={`${getImgUrl(book.coverImage)}`} alt="" className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-105 transition-all duration-200" />
+                    <img src={book?.coverImage} alt="" className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-105 transition-all duration-200" />
                 </Link>
             </div>
             <div>

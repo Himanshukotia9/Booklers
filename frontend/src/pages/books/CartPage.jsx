@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router'
 import { clearCart, decrementQty, incrementQty, removeFromCart } from '../../redux/features/cart/cartSlice';
-import { getImgUrl } from '../../utils/getImg';
 
 
 export default function CartPage() {
@@ -50,7 +49,7 @@ export default function CartPage() {
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <img
                                     alt=""
-                                    src={`${getImgUrl(product.coverImage)}`}
+                                    src={product?.coverImage}
                                     className="h-full w-full object-cover object-center"
                                     />
                                 </div>

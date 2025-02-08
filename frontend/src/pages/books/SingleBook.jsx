@@ -1,7 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router'
 import { useFetchBookByIdQuery } from '../../redux/features/books/booksApi';
-import { getImgUrl } from '../../utils/getImg';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
@@ -25,7 +24,7 @@ export default function SingleBook() {
             <div className=''>
                 <div>
                     <img
-                        src={`${getImgUrl(book.coverImage)}`}
+                        src={book?.coverImage}
                         alt={book.title}
                         className="mb-8"
                     />
