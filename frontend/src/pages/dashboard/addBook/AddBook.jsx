@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { useAddBookMutation } from '../../../redux/features/books/booksApi'
 import { useNavigate } from 'react-router-dom'
 import { storage } from '../../../firebase/firebase.config'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 export default function AddBook() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
@@ -15,6 +15,7 @@ export default function AddBook() {
     const [imageFile, setImageFile] = useState(null);
     const [addBook, {isLoading, isError}] = useAddBookMutation()
     const [imageFileName, setImageFileName] = useState('')
+    const [existingImagePath, setExistingImagePath] = useState('');
     
     const onSubmit = async (data) => {
  
@@ -34,6 +35,7 @@ export default function AddBook() {
             reset();
             setImageFileName('')
             setImageFile(null);
+            setExistingImagePath('');
             setTimeout(() => {
                 navigate('/dashboard/manage-books')
             }, 1000);
@@ -46,12 +48,22 @@ export default function AddBook() {
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
-        if(file) {
-            setImageFile(file);
-            const storageRef = ref(storage, "images/books/" + file.name)
-            await uploadBytes(storageRef, file);
-            const downloadUrl = await getDownloadURL(storageRef);
-            setImageFileName(downloadUrl);
+        if(!file) return;
+        setImageFile(file);
+
+        try {
+          if (existingImagePath) {
+            const oldImageRef = ref(storage, existingImagePath);
+            await deleteObject(oldImageRef);
+          }
+          const storageRef = ref(storage, `images/books/${file.name}`);
+          await uploadBytes(storageRef, file);
+          const downloadUrl = await getDownloadURL(storageRef);
+          setImageFileName(downloadUrl);
+          setExistingImagePath(`images/books/${file.name}`);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+            alert("Image upload failed. Please try again.");
         }
     }
 
