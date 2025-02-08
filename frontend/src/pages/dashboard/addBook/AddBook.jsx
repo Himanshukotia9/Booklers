@@ -1,3 +1,4 @@
+// AddBook.jsx
 import React, { useState } from 'react'
 import InputField from './InputField'
 import SelectField from './SelectField'
@@ -5,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 import { useAddBookMutation } from '../../../redux/features/books/booksApi'
 import { useNavigate } from 'react-router-dom'
+import { storage } from '../../../firebase/firebase.config'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 export default function AddBook() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
@@ -41,11 +44,14 @@ export default function AddBook() {
       
     }
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if(file) {
             setImageFile(file);
-            setImageFileName(file.name);
+            const storageRef = ref(storage, "images/books/" + file.name)
+            await uploadBytes(storageRef, file);
+            const downloadUrl = await getDownloadURL(storageRef);
+            setImageFileName(downloadUrl);
         }
     }
 
