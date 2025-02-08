@@ -5,6 +5,8 @@ import {
   useFetchAllBooksQuery,
 } from "../../../redux/features/books/booksApi";
 import { Link, useLocation } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../../../firebase/firebase.config";
 
 export default function ManageBooks() {
 
@@ -14,8 +16,12 @@ export default function ManageBooks() {
   const [deleteBook] = useDeleteBookMutation();
 
   // Handle deleting a book
-  const handleDeleteBook = async (id) => {
+  const handleDeleteBook = async (id, coverImage) => {
     try {
+      if (coverImage) {
+        const imageRef = ref(storage, coverImage);
+        await deleteObject(imageRef);
+      }
       await deleteBook(id).unwrap();
       alert("Book deleted successfully!");
       refetch();
@@ -98,7 +104,7 @@ export default function ManageBooks() {
                           Edit
                         </Link>
                         <button
-                          onClick={() => handleDeleteBook(book._id)}
+                          onClick={() => handleDeleteBook(book._id, book.coverImage)}
                           className="font-medium bg-red-500 py-1 px-4 rounded-full text-white mr-2"
                         >
                           Delete
