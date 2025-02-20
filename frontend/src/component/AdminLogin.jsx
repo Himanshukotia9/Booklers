@@ -19,7 +19,6 @@ export default function AdminLogin() {
                 }
             })
             const auth = response.data;
-            // console.log(auth);
             if(auth.token){
                 const expiryTime = Date.now() + 3600 * 1000; // Current time + 1 hour
                 localStorage.setItem('token', auth.token);
