@@ -33,7 +33,7 @@ export default function AdminLogin() {
             alert('Admin Login Successful')
             navigate('/dashboard')
         } catch (error) {
-          setMessage("Please provide a valid email and Password")
+          setMessage("Please provide a valid Username and Password")
           console.log(error)
         }
       }
